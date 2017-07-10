@@ -1,0 +1,1 @@
+class dns_update {}

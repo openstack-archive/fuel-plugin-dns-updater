@@ -1,0 +1,36 @@
+# Plugin name
+name: fuel-plugin-dns-update
+title: DNS Update plugin
+# Plugin version
+version: 0.2.3
+# Description
+description: Enables custom dns servers
+# Required fuel version
+fuel_version: ['9.0']
+# Groups
+groups: []
+# Licenses
+licenses: ['Apache License, Version 2.0']
+# Homepage
+homepage: https://github.com/openstack/fuel-plugin-dns-updater
+# Authors
+authors: ['Ivan Zinoviev <zinoviev.ii@gmail.com>']
+# Change `false` to `true` if the plugin can be installed in the environment
+# after the deployment.
+is_hotpluggable: true
+
+# The plugin is compatible with releases in the list
+releases:
+  - os: ubuntu
+    version: liberty-8.0
+    mode: ['ha']
+    deployment_scripts_path: deployment_scripts/
+    repository_path: repositories/ubuntu
+  - os: ubuntu
+    version: mitaka-9.0
+    mode: ['ha']
+    deployment_scripts_path: deployment_scripts/
+    repository_path: repositories/ubuntu
+
+# Version of plugin package
+package_version: '4.0.0'

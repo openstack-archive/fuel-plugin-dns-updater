@@ -1,0 +1,10 @@
+Metadata-Version: 1.0
+Name: os_dns_updater
+Version: 0.0.2
+Summary: listen to nova RabbitMQ events and update dns records
+Home-page: UNKNOWN
+Author: Sberbank Technology
+Author-email: UNKNOWN
+License: UNKNOWN
+Description: service to register virtual machines in dns
+Platform: UNKNOWN

@@ -1,0 +1,79 @@
+#! /bin/sh
+### BEGIN INIT INFO
+# Provides:          skeleton
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Example initscript
+# Description:       This file should be used to construct scripts to be
+#                    placed in /etc/init.d.
+### END INIT INFO
+
+# Do NOT "set -e"
+
+# PATH should only include /usr/* if it runs after the mountnfs.sh script
+PATH=/sbin:/usr/sbin:/bin:/usr/bin
+DIR=/usr/lib/python2.7/dist-packages/os_dns_updater
+DESC="Description of the service"
+DAEMON_NAME=openstack-dns-updater
+DAEMON="/usr/bin/python $DIR/openstack-dns-updater.py"
+DAEMON_ARGS=""
+PIDFILE=/var/run/$DAEMON_NAME.pid
+
+. /lib/lsb/init-functions
+
+# Function that starts the daemon/service
+#
+do_start()
+{
+        logger "DEBUG: entered start function"
+        log_daemon_msg "Starting openstack-dns-updater"
+        start-stop-daemon --start --background --pidfile $PIDFILE --make-pidfile --startas $DAEMON
+        ret=$?
+        logger "DEBUG: return code: $ret"
+        logger "DEBUG: vars: pidfile - $PIDFILE daemon - $DAEMON"
+        log_end_msg $?
+}
+
+do_stop()
+{
+#AP_RET=1 - running
+#AP_RET=0 - not running
+       if [ -f $PIDFILE ];
+       then
+          AP_RET=1
+       else
+          AP_RET=0
+       fi
+
+       if [ $AP_RET = 0 ];
+       then
+        log_daemon_msg "Openstack-dns-updater daemon is already stopped"
+        exit 0
+       elif [ $AP_RET = 1 ];
+       then
+        log_daemon_msg "Stopping openstack-dns-updater"
+        start-stop-daemon --stop --signal 2 --pidfile $PIDFILE --retry 10
+        rm -f $PIDFILE
+        log_end_msg $?
+       fi
+}
+
+case "$1" in
+  start|stop)
+       do_${1}
+       ;;
+  restart|reload|force-reload)
+       do_stop
+       do_start
+       ;;
+  status)
+    status_of_proc "$DAEMON_NAME" "$DAEMON" && exit 0 || exit 3
+    ;;
+  *)
+    #echo "Usage: $SCRIPTNAME {start|stop|restart|reload|force-reload}" >&2
+    echo "Usage: $SCRIPTNAME {start|stop|status|restart|force-reload}" >&2
+    exit 1
+    ;;
+esac
