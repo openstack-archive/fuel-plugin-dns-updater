@@ -1,0 +1,64 @@
+- id: fp-dns-update-controller
+  role: ['primary-controller','controller']
+  version: 2.0.0
+  type: puppet
+  parameters:
+    puppet_manifest: puppet/manifests/controller.pp
+    puppet_modules: puppet/modules:/etc/puppet/modules
+    timeout: 360
+  requires: ['post_deployment_start']
+  required_for: ['post_deployment_end']
+- id: fp-dns-update-mysql
+  role: ['primary-controller']
+  version: 2.0.0
+  type: puppet
+  parameters:
+    puppet_manifest: puppet/manifests/mysql.pp 
+    puppet_modules: puppet/modules:/etc/puppet/modules
+    timeout: 360
+  requires: ['post_deployment_start','fp-dns-update-controller']
+  required_for: ['post_deployment_end']
+- id: fp-dns-update-service
+  role: ['primary-controller','controller']
+  version: 2.0.0
+  type: puppet
+  cross-depends:
+    - name: fp-dns-update-controller
+      role: 'controller'
+  parameters:
+    puppet_manifest: puppet/manifests/service.pp
+    puppet_modules: puppet/modules:/etc/puppet/modules
+    timeout: 360
+  requires: ['post_deployment_start','fp-dns-update-mysql']
+  required_for: ['post_deployment_end']
+- id: fp-dns-update-nova
+  role: ['primary-controller','controller','compute']
+  version: 2.0.0
+  type: puppet
+  parameters:
+    puppet_manifest: puppet/manifests/nova.pp
+    puppet_modules: puppet/modules:/etc/puppet/modules
+    timeout: 360
+  requires: ['post_deployment_start']
+  required_for: ['post_deployment_end']
+- id: fp-dns-update-neutron
+  role: ['primary-controller','controller','primary-network-node','network-node']
+  version: 2.0.0
+  type: puppet
+  parameters:
+    puppet_manifest: puppet/manifests/neutron.pp
+    puppet_modules: puppet/modules:/etc/puppet/modules
+    timeout: 360
+  requires: ['post_deployment_start']
+  required_for: ['post_deployment_end']
+- id: fp-dns-update-pacemaker
+  role: ['primary-controller','controller']
+  version: 2.0.0
+  type: puppet
+  parameters:
+    puppet_manifest: puppet/manifests/pacemaker.pp
+    puppet_modules: puppet/modules:/etc/puppet/modules
+    timeout: 360
+  requires: ['fp-dns-update-mysql','fp-dns-update-service']
+  required_for: ['post_deployment_end']
+
