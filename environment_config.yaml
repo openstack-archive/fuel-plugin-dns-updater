@@ -1,0 +1,19 @@
+attributes:
+  metadata:
+    group: 'other'
+  net1:
+    type: "text"
+    weight: 10
+    value: "sberbank-idz"
+    label: "IDZ Network name"
+  net2:
+    type: "text"
+    weight: 11
+    value: "sberbank-ipz"
+    label: "IPZ Network name"
+  dns_key:
+    type: "file"
+    weight: 12
+    value: ""
+    label: "Key for DNS server"
+
