@@ -1,0 +1,9 @@
+Code-Review+1: Ilya Popov <ilya_p@hotmail.com>
+Code-Review+2: Valeriy Ponomaryov <vponomaryov@mirantis.com>
+Workflow+1: Valeriy Ponomaryov <vponomaryov@mirantis.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Mon, 31 Jul 2017 18:15:35 +0000
+Reviewed-on: https://review.openstack.org/484893
+Project: openstack/fuel-plugin-dns-updater
+Branch: refs/heads/master
